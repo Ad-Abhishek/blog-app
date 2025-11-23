@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { usePosts } from '@/hooks/usePosts';
-import { PostForm } from '@/components/PostForm';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Loader2 } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Navbar } from '@/components/Navbar';
-import { postsApi } from '@/lib/api';
-import { Post } from '@/types';
+import { useEffect, useState } from "react";
+import { usePosts } from "@/hooks/usePosts";
+import { PostForm } from "@/components/posts/PostForm";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Navbar } from "@/components/layout/Navbar";
+import { postsApi } from "@/lib/api";
+import { Post } from "@/types";
 
 const EditPost = () => {
   const { updatePost, isLoading } = usePosts();
@@ -22,7 +22,7 @@ const EditPost = () => {
           const postData = await postsApi.getPost(Number(id));
           setPost(postData);
         } catch (error) {
-          console.error('Failed to fetch post:', error);
+          console.error("Failed to fetch post:", error);
         } finally {
           setLoading(false);
         }
@@ -34,7 +34,7 @@ const EditPost = () => {
   const handleSubmit = async (values: { title: string; body: string }) => {
     if (id) {
       await updatePost(Number(id), values);
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   };
 
@@ -66,7 +66,7 @@ const EditPost = () => {
       <div className="container mx-auto px-4 py-8 max-w-3xl">
         <Button
           variant="ghost"
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate("/dashboard")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />

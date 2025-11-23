@@ -1,11 +1,11 @@
-import { useEffect, useState, useMemo } from 'react';
-import { usePosts } from '@/hooks/usePosts';
-import { PostCard } from '@/components/PostCard';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Plus, Loader2, Search } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { Navbar } from '@/components/Navbar';
+import { useEffect, useState, useMemo } from "react";
+import { usePosts } from "@/hooks/usePosts";
+import { PostCard } from "@/components/posts/PostCard";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Plus, Loader2, Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Navbar } from "@/components/layout/Navbar";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,7 +15,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 import {
   Pagination,
   PaginationContent,
@@ -24,7 +24,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
+} from "@/components/ui/pagination";
 
 const POSTS_PER_PAGE = 6;
 
@@ -32,7 +32,7 @@ const Dashboard = () => {
   const { posts, isLoading, error, fetchPosts, deletePost } = usePosts();
   const navigate = useNavigate();
   const [deleteId, setDeleteId] = useState<number | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -74,12 +74,12 @@ const Dashboard = () => {
               <h1 className="text-3xl font-bold mb-2">My Blog Posts</h1>
               <p className="text-muted-foreground">Manage your blog posts</p>
             </div>
-            <Button onClick={() => navigate('/create')}>
+            <Button onClick={() => navigate("/create")}>
               <Plus className="w-4 h-4 mr-2" />
               New Post
             </Button>
           </div>
-          
+
           {posts.length > 0 && (
             <div className="relative max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -108,14 +108,18 @@ const Dashboard = () => {
           <div className="text-center py-20">
             {posts.length === 0 ? (
               <>
-                <p className="text-muted-foreground text-lg mb-4">No posts yet</p>
-                <Button onClick={() => navigate('/create')}>
+                <p className="text-muted-foreground text-lg mb-4">
+                  No posts yet
+                </p>
+                <Button onClick={() => navigate("/create")}>
                   <Plus className="w-4 h-4 mr-2" />
                   Create Your First Post
                 </Button>
               </>
             ) : (
-              <p className="text-muted-foreground text-lg">No posts found matching "{searchQuery}"</p>
+              <p className="text-muted-foreground text-lg">
+                No posts found matching "{searchQuery}"
+              </p>
             )}
           </div>
         ) : (
@@ -136,42 +140,59 @@ const Dashboard = () => {
                   <PaginationContent>
                     <PaginationItem>
                       <PaginationPrevious
-                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        onClick={() =>
+                          setCurrentPage((p) => Math.max(1, p - 1))
+                        }
+                        className={
+                          currentPage === 1
+                            ? "pointer-events-none opacity-50"
+                            : "cursor-pointer"
+                        }
                       />
                     </PaginationItem>
-                    
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                      if (
-                        page === 1 ||
-                        page === totalPages ||
-                        (page >= currentPage - 1 && page <= currentPage + 1)
-                      ) {
-                        return (
-                          <PaginationItem key={page}>
-                            <PaginationLink
-                              onClick={() => setCurrentPage(page)}
-                              isActive={currentPage === page}
-                              className="cursor-pointer"
-                            >
-                              {page}
-                            </PaginationLink>
-                          </PaginationItem>
-                        );
-                      } else if (page === currentPage - 2 || page === currentPage + 2) {
-                        return (
-                          <PaginationItem key={page}>
-                            <PaginationEllipsis />
-                          </PaginationItem>
-                        );
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => {
+                        if (
+                          page === 1 ||
+                          page === totalPages ||
+                          (page >= currentPage - 1 && page <= currentPage + 1)
+                        ) {
+                          return (
+                            <PaginationItem key={page}>
+                              <PaginationLink
+                                onClick={() => setCurrentPage(page)}
+                                isActive={currentPage === page}
+                                className="cursor-pointer"
+                              >
+                                {page}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        } else if (
+                          page === currentPage - 2 ||
+                          page === currentPage + 2
+                        ) {
+                          return (
+                            <PaginationItem key={page}>
+                              <PaginationEllipsis />
+                            </PaginationItem>
+                          );
+                        }
+                        return null;
                       }
-                      return null;
-                    })}
-                    
+                    )}
+
                     <PaginationItem>
                       <PaginationNext
-                        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        onClick={() =>
+                          setCurrentPage((p) => Math.min(totalPages, p + 1))
+                        }
+                        className={
+                          currentPage === totalPages
+                            ? "pointer-events-none opacity-50"
+                            : "cursor-pointer"
+                        }
                       />
                     </PaginationItem>
                   </PaginationContent>
@@ -182,12 +203,16 @@ const Dashboard = () => {
         )}
       </div>
 
-      <AlertDialog open={deleteId !== null} onOpenChange={() => setDeleteId(null)}>
+      <AlertDialog
+        open={deleteId !== null}
+        onOpenChange={() => setDeleteId(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your post.
+              This action cannot be undone. This will permanently delete your
+              post.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

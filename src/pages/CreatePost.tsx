@@ -1,9 +1,9 @@
-import { usePosts } from '@/hooks/usePosts';
-import { PostForm } from '@/components/PostForm';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { Navbar } from '@/components/Navbar';
+import { usePosts } from "@/hooks/usePosts";
+import { PostForm } from "@/components/posts/PostForm";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Navbar } from "@/components/layout/Navbar";
 
 const CreatePost = () => {
   const { createPost, isLoading } = usePosts();
@@ -11,7 +11,7 @@ const CreatePost = () => {
 
   const handleSubmit = async (values: { title: string; body: string }) => {
     await createPost(values);
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
 
   return (
@@ -20,7 +20,7 @@ const CreatePost = () => {
       <div className="container mx-auto px-4 py-8 max-w-3xl">
         <Button
           variant="ghost"
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate("/dashboard")}
           className="mb-6"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />

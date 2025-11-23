@@ -2,7 +2,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { LogOut, PenSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
 export const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
